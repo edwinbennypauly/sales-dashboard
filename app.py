@@ -39,10 +39,16 @@ df = load_data()
 # ---------------- SIDEBAR FILTERS ----------------
 st.sidebar.header("📁 Sales Data Filters")
 
-start_date, end_date = st.sidebar.date_input(
+date_selection = st.sidebar.date_input(
     "Select Reporting Period",
     [df["Date"].min(), df["Date"].max()]
 )
+
+# Handle single-date selection
+if isinstance(date_selection, tuple) and len(date_selection) == 2:
+    start_date, end_date = date_selection
+else:
+    start_date = end_date = date_selection
 
 country_filter = st.sidebar.multiselect(
     "Select Country",
